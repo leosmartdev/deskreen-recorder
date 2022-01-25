@@ -124,7 +124,7 @@
       "repo": "deskreen",
       "private": false
     },
-    "asar": { "unpack": "*.{node,dll,exe}" }
+    "asarUnpack": "*.{node,dll,exe}"
   },
   "repository": {
     "type": "git",
