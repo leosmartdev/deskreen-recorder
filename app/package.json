@@ -17,5 +17,8 @@
   "dependencies": {
     "sass": "^1.30.0",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/fluent-ffmpeg": "^2.1.20"
   }
 }

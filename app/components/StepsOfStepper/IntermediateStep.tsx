@@ -27,6 +27,7 @@ interface IntermediateStepProps {
   handleNextApplicationWindow: () => void;
   resetPendingConnectionDevice: () => void;
   resetUserAllowedConnection: () => void;
+  setScreenCaptureId: (captureId: string) => void;
 }
 
 function getStepContent(
@@ -34,7 +35,8 @@ function getStepContent(
   stepIndex: number,
   handleNextEntireScreen: () => void,
   handleNextApplicationWindow: () => void,
-  pendingConnectionDevice: Device | null
+  pendingConnectionDevice: Device | null,
+  setScreenCaptureId: (captureId: string) => void
 ) {
   switch (stepIndex) {
     case 0:
@@ -52,6 +54,7 @@ function getStepContent(
           <ChooseAppOrScreeenStep
             handleNextEntireScreen={handleNextEntireScreen}
             handleNextApplicationWindow={handleNextApplicationWindow}
+            setScreenCaptureId={setScreenCaptureId}
           />
         </>
       );
@@ -78,6 +81,7 @@ export default function IntermediateStep(props: IntermediateStepProps) {
     handleNextApplicationWindow,
     resetPendingConnectionDevice,
     resetUserAllowedConnection,
+    setScreenCaptureId,
   } = props;
 
   const connectDevice = (device: Device) => {
@@ -101,7 +105,8 @@ export default function IntermediateStep(props: IntermediateStepProps) {
         activeStep,
         handleNextEntireScreen,
         handleNextApplicationWindow,
-        connectedDevicesService.pendingConnectionDevice
+        connectedDevicesService.pendingConnectionDevice,
+        setScreenCaptureId
       )}
 
       {

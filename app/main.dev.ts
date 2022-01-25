@@ -12,7 +12,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { Display } from 'electron/main';
 import path from 'path';
-import { app, BrowserWindow, ipcMain, screen, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, screen, shell, Menu } from 'electron';
 import settings from 'electron-settings';
 import i18n from './configs/i18next.config';
 import signalingServer from './server';
@@ -182,10 +182,10 @@ export default class DeskreenApp {
 
     this.mainWindow = new BrowserWindow({
       show: false,
-      width: 820,
-      height: 540,
-      minHeight: 400,
-      minWidth: 600,
+      width: 1024,
+      height: 680,
+      minHeight: 600,
+      minWidth: 800,
       titleBarStyle: 'hiddenInset',
       useContentSize: true,
       webPreferences:
@@ -227,9 +227,9 @@ export default class DeskreenApp {
       }
     });
 
-    if (process.env.NODE_ENV === 'dev') {
-      this.mainWindow.webContents.toggleDevTools();
-    }
+    // if (process.env.NODE_ENV === 'dev') {
+    this.mainWindow.webContents.toggleDevTools();
+    // }
 
     this.menuBuilder = new MenuBuilder(this.mainWindow, i18n);
     this.menuBuilder.buildMenu();
@@ -275,6 +275,28 @@ export default class DeskreenApp {
     ) {
       require('electron-debug')();
     }
+
+    ipcMain.handle('context-menu', async (event, sources) => {
+      const source = JSON.parse(sources);
+
+      const contextMenu = Menu.buildFromTemplate(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        source.data.map((item: any) => ({
+          label: item.name,
+          click: () =>
+            source.type === 'input'
+              ? event.sender.send('select-source', item)
+              : event.sender.send('select-output', item),
+        }))
+      );
+      contextMenu.popup();
+    });
+
+    if (require('electron-squirrel-startup')) {
+      app.quit();
+    }
+
+    Menu.setApplicationMenu(null);
 
     this.initElectronAppObject();
     this.initIpcMain();

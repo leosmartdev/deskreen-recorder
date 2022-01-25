@@ -5,12 +5,17 @@ import ShareEntireScreenOrAppWindowControlGroup from '../ShareAppOrScreenControl
 interface ChooseAppOrScreeenStepProps {
   handleNextEntireScreen: () => void;
   handleNextApplicationWindow: () => void;
+  setScreenCaptureId: (id: string) => void;
 }
 
 const ChooseAppOrScreeenStep: React.FC<ChooseAppOrScreeenStepProps> = (
   props: ChooseAppOrScreeenStepProps
 ) => {
-  const { handleNextEntireScreen, handleNextApplicationWindow } = props;
+  const {
+    handleNextEntireScreen,
+    handleNextApplicationWindow,
+    setScreenCaptureId,
+  } = props;
 
   return (
     <Row style={{ width: '100%' }}>
@@ -22,6 +27,7 @@ const ChooseAppOrScreeenStep: React.FC<ChooseAppOrScreeenStepProps> = (
                 <ShareEntireScreenOrAppWindowControlGroup
                   handleNextEntireScreen={handleNextEntireScreen}
                   handleNextApplicationWindow={handleNextApplicationWindow}
+                  setScreenCaptureId={setScreenCaptureId}
                 />
               </Col>
             </Row>

@@ -18,6 +18,9 @@ class PreviewGridListProps {
   handleNextEntireScreen = () => {};
 
   handleNextApplicationWindow = () => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setScreenCaptureId = (_captureId: string) => {};
 }
 
 export default function PreviewGridList(props: PreviewGridListProps) {
@@ -26,6 +29,7 @@ export default function PreviewGridList(props: PreviewGridListProps) {
     isEntireScreen,
     handleNextEntireScreen,
     handleNextApplicationWindow,
+    setScreenCaptureId,
   } = props;
   const [showPreviewNamesMap, setShowPreviewNamesMap] = useState(
     new Map<string, boolean>()
@@ -72,6 +76,7 @@ export default function PreviewGridList(props: PreviewGridListProps) {
                 } else {
                   handleNextApplicationWindow();
                 }
+                setScreenCaptureId(id);
               }}
             />
           </Col>

@@ -205,7 +205,7 @@ export default function TopPanel(props: any) {
                 transform: 'translateY(-3px)',
               }}
             >
-              Deskreen
+              Deskreen-Recorder
             </h4>
           </Button>
         </Tooltip>
@@ -221,7 +221,7 @@ export default function TopPanel(props: any) {
           center="xs"
           style={{ width: '100%', transform: 'translateX(-50px)' }}
         >
-          <Col>{renderDonateButton()}</Col>
+          {/* <Col>{renderDonateButton()}</Col> */}
           <Col>{renderLogoWithAppName()}</Col>
         </Row>
         <div className={getClassesCallback().topPanelControlButtonsRoot}>

@@ -7,6 +7,7 @@ import ChooseAppOrScreenOverlay from './StepsOfStepper/ChooseAppOrScreenOverlay/
 interface ShareAppOrScreenControlGroupProps {
   handleNextEntireScreen: () => void;
   handleNextApplicationWindow: () => void;
+  setScreenCaptureId: (id: string) => void;
 }
 
 const useStyles = makeStyles(() =>
@@ -55,7 +56,11 @@ export default function ShareAppOrScreenControlGroup(
   props: ShareAppOrScreenControlGroupProps
 ) {
   const { t } = useTranslation();
-  const { handleNextEntireScreen, handleNextApplicationWindow } = props;
+  const {
+    handleNextEntireScreen,
+    handleNextApplicationWindow,
+    setScreenCaptureId,
+  } = props;
   const classes = useStyles();
 
   const [
@@ -134,6 +139,7 @@ export default function ShareAppOrScreenControlGroup(
         handleClose={handleCloseChooseAppOrScreenOverlay}
         handleNextEntireScreen={handleNextEntireScreen}
         handleNextApplicationWindow={handleNextApplicationWindow}
+        setScreenCaptureId={setScreenCaptureId}
       />
     </>
   );

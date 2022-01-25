@@ -46,6 +46,7 @@ interface ChooseAppOrScreenOverlayProps {
   handleNextEntireScreen: () => void;
   handleNextApplicationWindow: () => void;
   handleClose: () => void;
+  setScreenCaptureId: (id: string) => void;
 }
 
 export default function ChooseAppOrScreenOverlay(
@@ -59,6 +60,7 @@ export default function ChooseAppOrScreenOverlay(
     isEntireScreenToShareChosen,
     handleNextEntireScreen,
     handleNextApplicationWindow,
+    setScreenCaptureId,
   } = props;
   const classes = useStyles();
 
@@ -221,6 +223,9 @@ export default function ChooseAppOrScreenOverlay(
                   handleNextApplicationWindow={() => {
                     handleNextApplicationWindow();
                     handleClose();
+                  }}
+                  setScreenCaptureId={(id: string) => {
+                    setScreenCaptureId(id);
                   }}
                 />
               </div>

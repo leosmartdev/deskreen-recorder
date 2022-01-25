@@ -89,6 +89,7 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
   );
   const [isDisplayHelloWord, setIsDisplayHelloWord] = useState(true);
   const [helloWord, setHelloWord] = useState('Hello');
+  const [screenCaptureId, setScreenCaptureId] = useState('');
 
   const [
     pendingConnectionDevice,
@@ -298,7 +299,10 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
     return activeStep === steps.length ? (
       <div style={{ width: '100%' }}>
         <Row middle="xs" center="xs">
-          <SuccessStep handleReset={handleReset} />
+          <SuccessStep
+            handleReset={handleReset}
+            screenCaptureId={screenCaptureId}
+          />
         </Row>
       </div>
     ) : (
@@ -315,12 +319,14 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
             // eslint-disable-next-line react/jsx-curly-newline
           }
           resetUserAllowedConnection={() => setIsUserAllowedConnection(false)}
+          setScreenCaptureId={setScreenCaptureId}
         />
       </div>
     );
   }, [
     activeStep,
     steps,
+    screenCaptureId,
     handleReset,
     handleNext,
     handleBack,

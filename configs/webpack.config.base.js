@@ -7,7 +7,11 @@ import webpack from 'webpack';
 import { dependencies as externals } from '../app/package.json';
 
 export default {
-  externals: [...Object.keys(externals || {})],
+  externals: [
+    ...Object.keys(externals || {}),
+    { '@ffmpeg-installer/ffmpeg': { commonjs2: '@ffmpeg-installer/ffmpeg' } },
+    { 'fluent-ffmpeg': { commonjs2: 'fluent-ffmpeg' } },
+  ],
 
   module: {
     rules: [
@@ -44,5 +48,9 @@ export default {
     }),
 
     new webpack.NamedModulesPlugin(),
+
+    new webpack.DefinePlugin({
+      'process.env.FLUENTFFMPEG_COV': false,
+    }),
   ],
 };
