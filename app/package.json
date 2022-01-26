@@ -16,7 +16,9 @@
   "license": "MIT",
   "dependencies": {
     "sass": "^1.30.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "fluent-ffmpeg": "^2.1.2"
   },
   "devDependencies": {
     "@types/fluent-ffmpeg": "^2.1.20"

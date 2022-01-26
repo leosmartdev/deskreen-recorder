@@ -227,9 +227,12 @@ export default class DeskreenApp {
       }
     });
 
-    // if (process.env.NODE_ENV === 'dev') {
-    this.mainWindow.webContents.toggleDevTools();
-    // }
+    if (
+      process.env.NODE_ENV === 'dev' ||
+      process.env.NODE_ENV === 'production'
+    ) {
+      this.mainWindow.webContents.toggleDevTools();
+    }
 
     this.menuBuilder = new MenuBuilder(this.mainWindow, i18n);
     this.menuBuilder.buildMenu();
