@@ -182,8 +182,8 @@ export default class DeskreenApp {
 
     this.mainWindow = new BrowserWindow({
       show: false,
-      width: 1024,
-      height: 680,
+      width: 1124,
+      height: 768,
       minHeight: 600,
       minWidth: 800,
       titleBarStyle: 'hiddenInset',
@@ -227,10 +227,7 @@ export default class DeskreenApp {
       }
     });
 
-    if (
-      process.env.NODE_ENV === 'dev' ||
-      process.env.NODE_ENV === 'production'
-    ) {
+    if (process.env.NODE_ENV === 'dev') {
       this.mainWindow.webContents.toggleDevTools();
     }
 

@@ -1,6 +1,6 @@
 {
-  "name": "deskreen",
-  "productName": "Deskreen",
+  "name": "deskreen-recorder",
+  "productName": "DeskreenRecorder",
   "version": "1.0.11",
   "description": "Deskreen turns any device into a secondary screen for your computer",
   "scripts": {

@@ -1,6 +1,6 @@
 {
-  "name": "deskreen",
-  "productName": "Deskreen",
+  "name": "deskreen-recorder",
+  "productName": "DeskreenRecorder",
   "version": "1.0.11",
   "description": "Deskreen turns any device into a secondary screen for your computer",
   "main": "./main.prod.js",
@@ -19,8 +19,5 @@
     "socket.io": "^2.3.0",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "fluent-ffmpeg": "^2.1.2"
-  },
-  "devDependencies": {
-    "@types/fluent-ffmpeg": "^2.1.20"
   }
 }

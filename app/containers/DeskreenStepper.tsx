@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState, useCallback, useContext, useEffect } from 'react';
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, desktopCapturer } from 'electron';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -49,6 +49,10 @@ const connectedDevicesService = remote.getGlobal(
 
 const Fade = require('react-reveal/Fade');
 
+const { handleDataAvailable, handleStop } = require('../lib/handlers');
+
+const { invokeContextMenu } = require('../lib/events/ipc');
+
 const useStyles = makeStyles(() =>
   createStyles({
     stepContent: {
@@ -95,6 +99,105 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
     pendingConnectionDevice,
     setPendingConnectionDevice,
   ] = useState<Device | null>(null);
+
+  const [isRecordingReady, setIsRecordingReady] = React.useState(false);
+  const [isRecording, setIsRecording] = React.useState(false);
+  const [isRecordingRestored, setIsRecordingRestored] = React.useState(false);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      // eslint-disable-next-line no-console
+      console.log(screenCaptureId);
+      const videoElement = document.querySelector('video');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mediaDevices = navigator.mediaDevices as any;
+      const videoStream = await mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          mandatory: {
+            chromeMediaSource: 'desktop',
+            chromeMediaSourceId: screenCaptureId,
+          },
+        },
+      });
+      const audioStream = await mediaDevices.getUserMedia({ audio: true });
+      const combinedStream = new MediaStream([
+        ...videoStream.getVideoTracks(),
+        ...audioStream.getAudioTracks(),
+      ]);
+      if (videoElement) {
+        videoElement.srcObject = combinedStream;
+        videoElement.play();
+      }
+      const options = { mimeType: 'video/webm; codecs=vp9' };
+      window.mediaRecorder = new MediaRecorder(combinedStream, options);
+      window.mediaRecorder.ondataavailable = handleDataAvailable;
+      window.mediaRecorder.onstop = handleStop;
+      setIsRecordingReady(true);
+    }, 3000);
+  }, [screenCaptureId]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleRecordStart = (e: any) => {
+    const { target } = e;
+
+    setIsRecording(true);
+    setIsRecordingRestored(false);
+
+    window.mediaRecorder.start();
+
+    target.classList.add('is-danger');
+
+    target.textContent = 'Recording';
+  };
+
+  const handleRecordStop = () => {
+    const startBtn = document.getElementById('startBtn');
+    // const saveBtn = document.getElementById('saveBtn');
+    // const { target } = e;
+
+    window.mediaRecorder.stop();
+
+    if (startBtn !== null) {
+      startBtn?.classList.remove('is-danger');
+      startBtn.textContent = 'Start';
+    }
+
+    // target?.setAttribute('disabled', 'disabled');
+
+    // startBtn?.removeAttribute('disabled');
+    // saveBtn?.removeAttribute('disabled');
+
+    setIsRecording(false);
+    setIsRecordingRestored(true);
+  };
+
+  const handleRecordSave = () => {
+    invokeContextMenu(
+      [
+        { id: 'mp4', name: 'mp4' },
+        { id: 'webm', name: 'webm' },
+        { id: 'gif', name: 'gif' },
+        { id: 'webp', name: 'webp' },
+        { id: 'apng', name: 'apng' },
+      ],
+      'output'
+    );
+  };
+
+  useEffect(() => {
+    ipcRenderer.on('select-source', (_event, source) => {
+      setScreenCaptureId(source.id);
+    });
+  });
+
+  const handleChooseScreen = async () => {
+    const inputSources = await desktopCapturer.getSources({
+      types: ['screen', 'window'],
+    });
+
+    invokeContextMenu(inputSources, 'input');
+  };
 
   useEffect(() => {
     const ipInterval = setInterval(async () => {
@@ -387,6 +490,52 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
         </Col>
         <Col className={classes.stepContent} xs={12}>
           {renderIntermediateOrSuccessStepContent()}
+        </Col>
+      </Row>
+      <Row style={{ width: '100%', marginTop: '10px' }} center="xs">
+        <Col xs={10}>
+          <video width={320} height={200}>
+            <track kind="captions" />
+          </video>
+        </Col>
+        <Col xs={10}>
+          <Button
+            id="startBtn"
+            onClick={handleRecordStart}
+            disabled={!isRecordingReady || isRecording}
+          >
+            Start
+          </Button>
+          <Button
+            id="stopBtn"
+            disabled={!isRecordingReady || !isRecording}
+            onClick={handleRecordStop}
+          >
+            Stop
+          </Button>
+          <Button
+            id="saveBtn"
+            disabled={!isRecordingReady || isRecording || !isRecordingRestored}
+            onClick={handleRecordSave}
+          >
+            Save as
+          </Button>
+        </Col>
+        <Col xs={10}>
+          <progress
+            id="saveProgressBar"
+            max="100"
+            style={{ width: '100%', display: 'none' }}
+          />
+        </Col>
+        <Col xs={10}>
+          <Button
+            id="videoSelectBtn"
+            style={{ height: 'auto', whiteSpace: 'normal' }}
+            onClick={handleChooseScreen}
+          >
+            Choose a Video Source
+          </Button>
         </Col>
       </Row>
       <AllowConnectionForDeviceAlert
