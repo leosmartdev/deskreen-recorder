@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { ipcRenderer, remote, desktopCapturer } from 'electron';
+// import chromecast from 'electron-chromecast';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -105,36 +106,38 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
   const [isRecordingRestored, setIsRecordingRestored] = React.useState(false);
 
   useEffect(() => {
-    setTimeout(async () => {
-      // eslint-disable-next-line no-console
-      console.log(screenCaptureId);
-      const videoElement = document.querySelector('video');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mediaDevices = navigator.mediaDevices as any;
-      const videoStream = await mediaDevices.getUserMedia({
-        audio: false,
-        video: {
-          mandatory: {
-            chromeMediaSource: 'desktop',
-            chromeMediaSourceId: screenCaptureId,
+    if (screenCaptureId) {
+      setTimeout(async () => {
+        // eslint-disable-next-line no-console
+        console.log(screenCaptureId);
+        const videoElement = document.querySelector('video');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const mediaDevices = navigator.mediaDevices as any;
+        const videoStream = await mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: screenCaptureId,
+            },
           },
-        },
-      });
-      const audioStream = await mediaDevices.getUserMedia({ audio: true });
-      const combinedStream = new MediaStream([
-        ...videoStream.getVideoTracks(),
-        ...audioStream.getAudioTracks(),
-      ]);
-      if (videoElement) {
-        videoElement.srcObject = combinedStream;
-        videoElement.play();
-      }
-      const options = { mimeType: 'video/webm; codecs=vp9' };
-      window.mediaRecorder = new MediaRecorder(combinedStream, options);
-      window.mediaRecorder.ondataavailable = handleDataAvailable;
-      window.mediaRecorder.onstop = handleStop;
-      setIsRecordingReady(true);
-    }, 3000);
+        });
+        const audioStream = await mediaDevices.getUserMedia({ audio: true });
+        const combinedStream = new MediaStream([
+          ...videoStream.getVideoTracks(),
+          ...audioStream.getAudioTracks(),
+        ]);
+        if (videoElement) {
+          videoElement.srcObject = combinedStream;
+          videoElement.play();
+        }
+        const options = { mimeType: 'video/webm; codecs=vp9' };
+        window.mediaRecorder = new MediaRecorder(combinedStream, options);
+        window.mediaRecorder.ondataavailable = handleDataAvailable;
+        window.mediaRecorder.onstop = handleStop;
+        setIsRecordingReady(true);
+      }, 3000);
+    }
   }, [screenCaptureId]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -183,6 +186,14 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
       ],
       'output'
     );
+  };
+
+  const handleChromeCast = () => {
+    // chromecast(async (receivers: any[]) => {
+    //   // Do some logic to choose a receiver, possibly ask the user through a UI
+    //   const chosenReceiver = receivers[0];
+    //   return chosenReceiver;
+    // });
   };
 
   useEffect(() => {
@@ -492,7 +503,12 @@ const DeskreenStepper = React.forwardRef((_props, ref) => {
           {renderIntermediateOrSuccessStepContent()}
         </Col>
       </Row>
-      <Row style={{ width: '100%', marginTop: '10px' }} center="xs">
+      <Row style={{ width: '100%', marginTop: '20px' }} center="xs">
+        <Col xs={10}>
+          <Button id="castBtn" onClick={handleChromeCast}>
+            ChromeCast
+          </Button>
+        </Col>
         <Col xs={10}>
           <video width={320} height={200}>
             <track kind="captions" />
