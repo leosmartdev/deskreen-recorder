@@ -1,7 +1,7 @@
-### ▶️ Videos
-![Video1](https://www.screencast.com/t/eo3EUMTAB)
-![Video2](https://www.screencast.com/t/5TciWmZg5Xa)
-![Video3](https://screenrec.com/share/1EZue5Njg7)
+## ▶️ Videos
+### [Video1](https://www.screencast.com/t/eo3EUMTAB)
+### [Video2](https://www.screencast.com/t/5TciWmZg5Xa)
+### [Video3](https://screenrec.com/share/1EZue5Njg7)
 
 # Deskreen
 
