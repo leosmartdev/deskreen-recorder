@@ -1,3 +1,8 @@
+### ▶️ Videos
+[Video1](https://www.screencast.com/t/eo3EUMTAB)
+[Video2](https://www.screencast.com/t/5TciWmZg5Xa)
+[Video3](https://screenrec.com/share/1EZue5Njg7)
+
 # Deskreen
 
 [![Github All Releases](https://img.shields.io/github/downloads/pavlobu/deskreen/total.svg)]()
@@ -218,43 +223,3 @@ TODO: add how to get started with local SonarCube for Deskreen in details.
   - `package.json` -- in `version` key ex. `1.0.0`
   - `app/package.json` -- in `version` key ex. `1.0.0`
   - `app/package-lock.json` -- in `version` key ex. `1.0.0`
-
-## Found typo on https://deskreen.com ?
-
-You can submit your pull request with fix on [Deskreen website locales repo](https://github.com/Deskreen/deskreen-website-locales)
-
-## Maintainer
-
-- [Pavlo (Paul) Buidenkov](https://www.linkedin.com/in/pavlobu)
-
-## License
-
-AGPL-3.0 License © [Pavlo (Paul) Buidenkov](https://github.com/pavlobu/deskreen)
-
-## Copyright
-
-Deskreen Logo PNG Image -- © [Nadiia Plaunova](https://www.artstation.com/nadiiia)
-
-Apache 2.0 © [blueprintjs](https://github.com/palantir/blueprint)
-
-MIT © [Electron React Boilerplate](https://github.com/electron-react-boilerplate)
-
-simple-peer MIT. Copyright (c) [Feross Aboukhadijeh](http://feross.org/)
-
-GNU General Public License (GPL) Version 2 [node-forge](https://github.com/digitalbazaar/forge)
-
-ISC Copyright (c) 2019, Mapbox [pixelmatch](https://github.com/mapbox/pixelmatch)
-
-## Thanks
-
-🙏 Special thanks to [Electron React Boilerplate community](https://github.com/electron-react-boilerplate/electron-react-boilerplate) for providing a good kickstart template boilerplate code for electron project, that really helped a lot to get started with development of Deskreen.
-
-🙏 Thanks to Github workflows for enabling a robust CI pipeline for the needs of 'forging' 🛠️ Deskreen.
-
-🙏 Many thanks to all 🌍 open source community members and maintainers of libraries used in this project.
-
-## Donate
-
-[Click to donate on Deskreen's Patreon page](https://patreon.com/deskreen)
-
-[Click to donate on Deskreen's Opencollective page](https://opencollective.com/deskreen)
